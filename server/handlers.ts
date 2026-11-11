@@ -2,7 +2,7 @@
 // extracting, and auto-completing code"), plus diff and semantic mapping.
 // Used by api/[op].ts on Vercel and by the Vite dev middleware locally.
 
-import { chat, chatStream, FAST_MODEL, MODEL, type ChatMessage } from './openai';
+import { chat, chatStream, FAST_MODEL, MODEL, type ChatMessage } from './openai.js';
 import {
   AUTOCOMPLETE_CONTEXT,
   AUTOCOMPLETE_SYSTEM,
@@ -13,8 +13,8 @@ import {
   MODIFY_SYSTEM,
   SEMANTIC_SYSTEM,
   VARIATION_CONTEXT,
-} from './prompts';
-import { retrieveExamples } from './examples';
+} from './prompts.js';
+import { retrieveExamples } from './examples.js';
 
 const MAX_CODE = 24_000; // guard against runaway payloads
 

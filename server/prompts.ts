@@ -1,7 +1,7 @@
 // Prompts reconstructed from Spellburst (UIST '23) Appendix A.2.
 // Request structure per the paper: [System Configuration, Dynamic Context (few-shot), User Input].
 
-import type { ChatMessage } from './openai';
+import type { ChatMessage } from './openai.js';
 
 export const START_TOKEN = 'SPELLBURST_START';
 export const END_TOKEN = 'SPELLBURST_END';

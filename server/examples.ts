@@ -6,8 +6,8 @@
 // We don't have their dataset, so this is a small hand-written stand-in with
 // keyword retrieval.
 
-import type { ChatMessage } from './openai';
-import { START_TOKEN, END_TOKEN } from './prompts';
+import type { ChatMessage } from './openai.js';
+import { START_TOKEN, END_TOKEN } from './prompts.js';
 
 interface Example {
   category: 'objects' | 'canvas' | 'relations';

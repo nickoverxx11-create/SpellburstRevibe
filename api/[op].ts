@@ -1,6 +1,6 @@
 // Vercel serverless entry: /api/modify, /api/merge, /api/extract, /api/diff,
 // /api/autocomplete, /api/semantic, /api/health
-import { handle } from '../server/handlers';
+import { handle } from '../server/handlers.js';
 
 function opFrom(request: Request): string {
   const path = new URL(request.url).pathname;
