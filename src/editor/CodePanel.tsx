@@ -7,6 +7,7 @@ import type { GNode, SketchNode } from '../graph/types';
 import { IconClose, IconPause, IconPlay, IconReset } from '../lib/icons';
 import { STARTERS } from '../sketch/examples';
 import { findParams, fmt, guessRange, setParam } from '../sketch/params';
+import { RangeSlider } from '../sketch/RangeSlider';
 import { SketchFrame, type SketchFrameHandle } from '../sketch/SketchFrame';
 
 const extensions = [javascript()];
@@ -35,8 +36,7 @@ export function ParamSliders({ sketch }: { sketch: SketchNode }) {
         return (
           <label key={p.name} className="param">
             <span className="mono name">{p.name}</span>
-            <input
-              type="range"
+            <RangeSlider
               min={Math.min(r.min, p.value)}
               max={Math.max(r.max, p.value)}
               step={r.step}

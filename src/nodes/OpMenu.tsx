@@ -25,7 +25,7 @@ export function applyMenu(sketchId: string, key: OpType | 'duplicate'): string {
 
 export function OpMenu({ sketchId, onPick }: { sketchId: string; onPick?: () => void }) {
   return (
-    <div className="op-menu nodrag">
+    <div className="op-menu nodrag nopan">
       {ITEMS.map((it) => (
         <button
           key={it.key}

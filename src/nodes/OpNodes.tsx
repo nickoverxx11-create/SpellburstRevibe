@@ -7,6 +7,7 @@ import type { DiffNode, ExtractNode, MergeNode, ModifyNode, SketchNode } from '.
 import { fetchAutocomplete } from '../lib/api';
 import { IconClose, IconDiff, IconExtract, IconMerge, IconModify, IconSpark } from '../lib/icons';
 import { fmt, getParam, setParam } from '../sketch/params';
+import { RangeSlider } from '../sketch/RangeSlider';
 import { OpMenu } from './OpMenu';
 
 function useNode<T>(id: string) {
@@ -39,7 +40,7 @@ function Shell({
           {icon}
           <span>{title}</span>
         </div>
-        <button className="hdr-btn icon nodrag" title="Delete operator" onClick={() => useStore.getState().remove(id)}>
+        <button className="hdr-btn icon nodrag nopan" title="Delete operator" onClick={() => useStore.getState().remove(id)}>
           <IconClose />
         </button>
       </div>
@@ -52,7 +53,7 @@ function Shell({
 function RunButton({ status, label, onClick, hasChild }: { status: string; label: string; onClick: () => void; hasChild?: boolean }) {
   const running = status === 'running';
   return (
-    <button className="btn primary block nodrag" disabled={running} onClick={onClick}>
+    <button className="btn primary block nodrag nopan" disabled={running} onClick={onClick}>
       {running ? (
         <>
           <span className="spinner" /> Generating…
@@ -70,7 +71,7 @@ function SketchPicker({ value, exclude, onChange }: { value: string | null; excl
   const graph = useStore((s) => s.graphs[s.mode]);
   const list = sketches(graph).filter((n) => n.id !== exclude && n.code.trim());
   return (
-    <select className="select nodrag" value={value ?? ''} onChange={(e) => onChange(e.target.value)}>
+    <select className="select nodrag nopan" value={value ?? ''} onChange={(e) => onChange(e.target.value)}>
       <option value="" disabled>
         choose sketch…
       </option>
@@ -106,7 +107,7 @@ function SemanticSliders({ op }: { op: ModifyNode }) {
     .filter((g) => g.vars.length);
   if (!groups.length) return null;
   return (
-    <div className="semantic nodrag nowheel">
+    <div className="semantic nodrag nopan nowheel">
       {groups.map((g) => (
         <div className="sem-group" key={g.phrase}>
           <div className="sem-phrase">"{g.phrase}"</div>
@@ -120,8 +121,7 @@ function SemanticSliders({ op }: { op: ModifyNode }) {
                   <span className="mono">{v.name}</span>
                   <span className="sem-val mono">{fmt(val)}</span>
                 </div>
-                <input
-                  type="range"
+                <RangeSlider
                   min={min}
                   max={max}
                   step={v.step}
@@ -198,7 +198,7 @@ export function ModifyNodeView({ data, selected }: NodeProps) {
       <div className="prompt-wrap">
         <textarea
           ref={ta}
-          className="prompt nodrag nowheel"
+          className="prompt nodrag nopan nowheel"
           placeholder="Describe a change… e.g. “Pretend the circles are the orbits of planets. Add a sun.”"
           value={op.prompt}
           onChange={(e) => {
@@ -216,7 +216,7 @@ export function ModifyNodeView({ data, selected }: NodeProps) {
           }}
         />
         {(suggestions.length > 0 || loadingSugg) && (
-          <div className="suggestions nodrag">
+          <div className="suggestions nodrag nopan">
             {loadingSugg && !suggestions.length && <div className="sugg-loading">thinking of directions…</div>}
             {suggestions.map((sg) => (
               <button
@@ -258,7 +258,7 @@ export function MergeNodeView({ data, selected }: NodeProps) {
         <SketchPicker value={op.otherId} exclude={op.parent ?? ''} onChange={(v) => s.update(id, { otherId: v })} />
       </div>
       <textarea
-        className="prompt short nodrag nowheel"
+        className="prompt short nodrag nopan nowheel"
         placeholder="Optional: what to keep from each, e.g. “planets from A, mountain background from B”. Leave empty to let the AI decide."
         value={op.prompt}
         onChange={(e) => s.update(id, { prompt: e.target.value })}
@@ -293,7 +293,7 @@ export function DiffNodeView({ data, selected }: NodeProps) {
         <div className="hint">Get a plain-language summary of how two sketches differ, plus a line-level code diff.</div>
       )}
       {a && b && op.status === 'done' && (
-        <div className="diff-actions nodrag">
+        <div className="diff-actions nodrag nopan">
           <button className="btn small" onClick={() => setShowCode((v) => !v)}>
             {showCode ? 'Hide' : 'Show'} code diff
           </button>
@@ -310,7 +310,7 @@ export function DiffNodeView({ data, selected }: NodeProps) {
         </div>
       )}
       {showCode && a && b && (
-        <pre className="code-diff nowheel nodrag">
+        <pre className="code-diff nowheel nodrag nopan">
           {diffLines(a.code, b.code).map((part, i) => (
             <span key={i} className={part.added ? 'add' : part.removed ? 'del' : 'same'}>
               {part.value
@@ -339,7 +339,7 @@ export function ExtractNodeView({ data, selected }: NodeProps) {
   return (
     <Shell id={id} kind="extract" title={`Extract · ${parentLabel(op.parent)}`} icon={<IconExtract />} selected={selected}>
       <textarea
-        className="prompt short nodrag nowheel"
+        className="prompt short nodrag nopan nowheel"
         placeholder="What to isolate, e.g. “the color gradient” or “the orbit motion”"
         value={op.prompt}
         onChange={(e) => s.update(id, { prompt: e.target.value })}

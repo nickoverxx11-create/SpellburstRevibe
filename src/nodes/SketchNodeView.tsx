@@ -50,7 +50,7 @@ export function SketchNodeView({ data, selected }: NodeProps) {
     <div className={`node sketch-node ${selected ? 'selected' : ''} ${node.stale ? 'stale' : ''}`}>
       <Handle type="target" position={Position.Left} />
       <div className="node-header">
-        <div className="examples-wrap nodrag">
+        <div className="examples-wrap nodrag nopan">
           <button className="hdr-btn" onClick={() => setExamplesOpen((o) => !o)} title="Load a starter sketch">
             <IconMenu /> Examples
           </button>
@@ -71,7 +71,7 @@ export function SketchNodeView({ data, selected }: NodeProps) {
           )}
         </div>
         <div className="node-title">{sketchLabel(node)}</div>
-        <button className="hdr-btn icon nodrag" title="Delete (children re-attach to parent)" onClick={() => s.remove(id)}>
+        <button className="hdr-btn icon nodrag nopan" title="Delete (children re-attach to parent)" onClick={() => s.remove(id)}>
           <IconClose />
         </button>
       </div>
@@ -94,7 +94,7 @@ export function SketchNodeView({ data, selected }: NodeProps) {
           <div className="empty-preview">Empty sketch: open the code editor or pick an example.</div>
         )}
         {err && !node.generating && (
-          <div className="runtime-error nodrag">
+          <div className="runtime-error nodrag nopan">
             <span title={err.message}>
               <IconWarn /> {err.message}
               {err.line ? ` (line ${err.line})` : ''}
@@ -107,7 +107,7 @@ export function SketchNodeView({ data, selected }: NodeProps) {
         {node.stale && <div className="stale-badge" title="An ancestor operator was re-run after this sketch was made">out of date</div>}
       </div>
 
-      <div className="node-footer nodrag">
+      <div className="node-footer nodrag nopan">
         <div className="footer-left">
           <button className="ftr-btn" title={paused ? 'Play' : 'Pause'} onClick={() => setPaused((p) => !p)}>
             {paused ? <IconPlay /> : <IconPause />}
